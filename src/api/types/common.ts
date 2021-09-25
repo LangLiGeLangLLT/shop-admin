@@ -17,7 +17,7 @@ export interface IMenu {
   icon: string
   header: string
   is_header: number
-  children?: IMenu
+  children?: IMenu[]
 }
 
 export interface ILoginResponse {

@@ -77,6 +77,7 @@
 import { getCaptcha, login } from '@/api/common'
 import { useStore } from '@/store'
 import type { IElForm, IFormRule } from '@/types/element-plus'
+import { ElMessage } from 'element-plus/es'
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
@@ -127,12 +128,20 @@ const handleSubmit = async () => {
     loading.value = false
   })
 
-  // 处理响应
+  if (!data) return
+
+  ElMessage.success('登录成功')
+
+  // 存储登录用户信息
   store.commit('setUser', {
     ...data.user_info,
     token: data.token
   })
-  let redirect = route.query.redirect || '/'
+
+  store.commit('setMenus', data.menus)
+
+  // 跳转回原来页面
+  let redirect = route.query.redirect
   if (typeof redirect !== 'string') {
     redirect = '/'
   }
